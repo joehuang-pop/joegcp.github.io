@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="遺失pam_tally.so 造成ssh登入失敗CloudMile KB: https:&#x2F;&#x2F;docs.google.com&#x2F;document&#x2F;d&#x2F;1QE8wzSSTlmu26SBfMEuXNCtDRFh1y9ejZ8acawyxPCU&#x2F;edit#Status: CompletedTag: Tech [ Linux ] PAM Issue Lock ssh Login1. Error message">
+<meta property="og:type" content="article">
+<meta property="og:title" content="造成ssh登入失敗">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="遺失pam_tally.so 造成ssh登入失敗CloudMile KB: https:&#x2F;&#x2F;docs.google.com&#x2F;document&#x2F;d&#x2F;1QE8wzSSTlmu26SBfMEuXNCtDRFh1y9ejZ8acawyxPCU&#x2F;edit#Status: CompletedTag: Tech [ Linux ] PAM Issue Lock ssh Login1. Error message">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-53ce2107-12df-43a9-ba74-e95d7ebf22f7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.imgur.com&#x2F;SAKWbTf.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-7a8be82e-8454-4ddb-b4a6-ee29109e7e22.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-718ec6d0-d527-47d8-b3e4-f1b1bd46316d.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-f00893b7-962f-478e-9254-7d43d885bec1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-5a3d38d4-3e5a-48d3-ae13-970b0510cf3d.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-44b62e57-9644-4b13-8756-11fb4d4d76d4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-9ea2bfa0-b90e-42ba-b714-3a47bc9c7e2a.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-ffbde8ba-e1d1-48ad-9498-bd42de0b15ee.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-258b5c71-ae6f-4b2a-9ea1-7104d0ca445c.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-a09c6299-41a3-4e37-b3b1-042a76995138.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-5e8e111a-9933-424c-bcd7-52164e93fce7.png">
+<meta property="og:updated_time" content="2019-10-23T03:04:13.044Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;23&#x2F;%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97&#x2F;Untitled-53ce2107-12df-43a9-ba74-e95d7ebf22f7.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/10/23/%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>造成ssh登入失敗 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/23/%E9%80%A0%E6%88%90ssh%E7%99%BB%E5%85%A5%E5%A4%B1%E6%95%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          造成ssh登入失敗
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-10-23 00:03:39 / Modified: 11:04:13" itemprop="dateCreated datePublished" datetime="2019-10-23T00:03:39+08:00">2019-10-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="遺失pam-tally-so-造成ssh登入失敗"><a href="#遺失pam-tally-so-造成ssh登入失敗" class="headerlink" title="遺失pam_tally.so 造成ssh登入失敗"></a>遺失pam_tally.so 造成ssh登入失敗</h1><p>CloudMile KB: <a href="https://docs.google.com/document/d/1QE8wzSSTlmu26SBfMEuXNCtDRFh1y9ejZ8acawyxPCU/edit#" target="_blank" rel="noopener">https://docs.google.com/document/d/1QE8wzSSTlmu26SBfMEuXNCtDRFh1y9ejZ8acawyxPCU/edit#</a><br>Status: Completed<br>Tag: Tech</p>
+<h2 id="Linux-PAM-Issue-Lock-ssh-Login"><a href="#Linux-PAM-Issue-Lock-ssh-Login" class="headerlink" title="[ Linux ] PAM Issue Lock ssh Login"></a>[ Linux ] PAM Issue Lock ssh Login</h2><h3 id="1-Error-message"><a href="#1-Error-message" class="headerlink" title="1. Error message"></a>1. Error message</h3><p>客戶用即有 disk開一台vm，無法正常ssh<br>使用serial port 連線和logging，觀察到gcp一直嘗試把itsupport寫入group-sudoers，但無法正常ssh  (上圖是開serial port，下圖ssh error)，經檢查網路與防火牆皆正常</p>
+<p><img src="Untitled-53ce2107-12df-43a9-ba74-e95d7ebf22f7.png" alt=""><br><img src="https://i.imgur.com/SAKWbTf.png" alt=""></p>
+<h3 id="PAM-unable-to-open"><a href="#PAM-unable-to-open" class="headerlink" title="PAM unable to open"></a>PAM unable to open</h3><p>訊息指出PAM unable to open <code>/usr/lib64/security/pam_tally.so</code> </p>
+<p><img src="Untitled-7a8be82e-8454-4ddb-b4a6-ee29109e7e22.png" alt=""></p>
+<h3 id="參考文件"><a href="#參考文件" class="headerlink" title="參考文件"></a>參考文件</h3><ol>
+<li><p><strong>RHEL Resolution</strong></p>
+<p> Redhat Solution 也對passwd: PAM unable to dlopen(/lib/security/pam_tally.so) 此提供解法<br> 對目標是<code>**passwd**</code></p>
+<p> <a href="https://access.redhat.com/solutions/34749" target="_blank" rel="noopener">Login fails for non-root users with error message “passwd: PAM unable to dlopen(/lib/security/pam_tally.so) - Red Hat Customer Portal</a></p>
+</li>
+<li><p><strong>內地簡書對於pam linux登入失敗的處理</strong></p>
+<p> 直接使用<code>pam_tally --user</code>對user解鎖</p>
+<p> <a href="https://www.jianshu.com/p/3cee7c58a283" target="_blank" rel="noopener">Linux登陆失败处理功能</a></p>
+</li>
+</ol>
+<h3 id="2-History-Trace"><a href="#2-History-Trace" class="headerlink" title="2. History Trace"></a>2. History Trace</h3><p>出問題的<code>open-vas vm</code> 關機，將<code>disk</code>掛載到其它的vm進行檢測</p>
+<p>發現有對pam.d 調整，推斷出是PAM導致ssh錯誤</p>
+<p><img src="Untitled-718ec6d0-d527-47d8-b3e4-f1b1bd46316d.png" alt=""></p>
+<h3 id="3-補齊PAM-so檔"><a href="#3-補齊PAM-so檔" class="headerlink" title="3. 補齊PAM .so檔"></a>3. 補齊PAM .so檔</h3><h3 id="作法"><a href="#作法" class="headerlink" title="作法"></a>作法</h3><ol>
+<li>檢查系統報錯的檔案<code>pam_tally.so</code> ，確實缺少此檔案</li>
+<li>我們檢查過disk有中有相同的so檔，名為<code>pam_tally2.so</code> </li>
+<li>建立檔案連結，把<code>pam_tally2.so</code> 指給 <code>pam_tally.so</code></li>
+<li>完成連結後，umount disk，在新開vm並使用即有disk</li>
+<li>開機正常可正常ssh</li>
+</ol>
+<p>Step1:<br>檢查檔案</p>
+<pre><code># 取得disk資訊，sdb是新掛進來的disk
+# 而sdb1是有經過format的partition
+# 我們要把/dev/sdb1 掛在新的系統上
+
+$lsblk 
+
+$mkdir -p /ossec
+$mount /dev/sdb1 /ossec
+
+# 設定新的根目錄
+# 用意是把舊的disk當作系統碟的意思，才能對此partition進行檢測
+# 切換命令提示會變成root
+# 如擷圖 root@test-107
+
+$chroot /ossec
+
+# 根據報錯的訊息檢查pam_tally.so 檔案
+# 發現遺失此檔案
+
+$ls /usr/lib64/security/pam_tally.so</code></pre><p><img src="Untitled-f00893b7-962f-478e-9254-7d43d885bec1.png" alt=""></p>
+<p>$lsblk</p>
+<p><img src="Untitled-5a3d38d4-3e5a-48d3-ae13-970b0510cf3d.png" alt=""></p>
+<p>To check pam_tally.so</p>
+<p>Step2:<br>建立檔案連結<code>ln</code></p>
+<p><img src="Untitled-44b62e57-9644-4b13-8756-11fb4d4d76d4.png" alt=""></p>
+<p>Step3:<br>確認剛才建立的連結檔<code>pam_tally.so</code></p>
+<p><img src="Untitled-9ea2bfa0-b90e-42ba-b714-3a47bc9c7e2a.png" alt=""></p>
+<p>Step4:</p>
+<pre><code># 退出chroot，回到原本的系統
+# 注意user變成 itsupport@test-107
+$exit
+
+# OS 層級的umount
+$sudo umount /ossec
+
+# 再進GCP console把physical disk刪除掉
+# 或使用detach-disk
+
+gcloud compute instances detach-disk &lt;YOUR_INSTANCE&gt; --disk=&lt;YOUR_DISK&gt; --zone=&lt;YOUR_ZONE&gt;</code></pre><p><img src="Untitled-ffbde8ba-e1d1-48ad-9498-bd42de0b15ee.png" alt=""></p>
+<p>Step5:</p>
+<p>可以正常ssh 連線了</p>
+<p><img src="Untitled-258b5c71-ae6f-4b2a-9ea1-7104d0ca445c.png" alt=""></p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>PAM是保護ssh的第三把鎖，但也有可能設定不當造成ssh失效</p>
+<hr>
+<h2 id="Firewall-Bastion-linux-RDP-Issue"><a href="#Firewall-Bastion-linux-RDP-Issue" class="headerlink" title="[ Firewall ] Bastion-linux RDP Issue"></a>[ Firewall ] Bastion-linux RDP Issue</h2><h3 id="Firewall-套用模式有三種"><a href="#Firewall-套用模式有三種" class="headerlink" title="Firewall 套用模式有三種"></a>Firewall 套用模式有三種</h3><ol>
+<li>網路中所有instance</li>
+<li>指定的目標標記</li>
+<li>指定的服務帳戶</li>
+</ol>
+<h3 id="作法-1"><a href="#作法-1" class="headerlink" title="作法"></a>作法</h3><ol>
+<li>檢查這條policy是採用<code>指定的目標標記</code></li>
+<li>因此vm也要套用上對應的<code>tag</code>: <code>prod-allow-rdp</code> 此firewall才會生效</li>
+</ol>
+<p>Step1</p>
+<p><img src="Untitled-a09c6299-41a3-4e37-b3b1-042a76995138.png" alt=""></p>
+<p>Step2</p>
+<p><img src="Untitled-5e8e111a-9933-424c-bcd7-52164e93fce7.png" alt=""></p>
+<h3 id="結論-："><a href="#結論-：" class="headerlink" title="結論 ："></a>結論 ：</h3><p>firewall使用的目標最用方式有三種，在現在production目前都有使用中</p>
+<p>要注意instance與firewall彼此的對應關系</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/10/22/1022/" rel="next" title="1022">
+                  <i class="fa fa-chevron-left"></i> 1022
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/10/23/1023/" rel="prev" title="1023">
+                  1023 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#遺失pam-tally-so-造成ssh登入失敗"><span class="nav-number">1.</span> <span class="nav-text">遺失pam_tally.so 造成ssh登入失敗</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-PAM-Issue-Lock-ssh-Login"><span class="nav-number">1.1.</span> <span class="nav-text">[ Linux ] PAM Issue Lock ssh Login</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Error-message"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. Error message</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PAM-unable-to-open"><span class="nav-number">1.1.2.</span> <span class="nav-text">PAM unable to open</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參考文件"><span class="nav-number">1.1.3.</span> <span class="nav-text">參考文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-History-Trace"><span class="nav-number">1.1.4.</span> <span class="nav-text">2. History Trace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-補齊PAM-so檔"><span class="nav-number">1.1.5.</span> <span class="nav-text">3. 補齊PAM .so檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作法"><span class="nav-number">1.1.6.</span> <span class="nav-text">作法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#結論"><span class="nav-number">1.1.7.</span> <span class="nav-text">結論</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Firewall-Bastion-linux-RDP-Issue"><span class="nav-number">1.2.</span> <span class="nav-text">[ Firewall ] Bastion-linux RDP Issue</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Firewall-套用模式有三種"><span class="nav-number">1.2.1.</span> <span class="nav-text">Firewall 套用模式有三種</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作法-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">作法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#結論-："><span class="nav-number">1.2.3.</span> <span class="nav-text">結論 ：</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="John Doe"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/muse.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
